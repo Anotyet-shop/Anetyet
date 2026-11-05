@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,14 +16,14 @@ header{padding:16px;text-align:center;border-bottom:1px solid rgba(34,43,66,.1)}
 .search{margin:16px auto;max-width:600px;padding:0 16px}
 .search input{width:100%;padding:14px 20px;border-radius:30px;border:1.5px solid var(--navy);background:white}
 .cats{display:flex;gap:8px;overflow:auto;padding:12px 16px}
-.cats button{white-space:nowrap;padding:10px 18px;border-radius:30px;border:1px solid var(--navy);background:white;color:var(--navy);cursor:pointer}
+.cats button{white-space:nowrap;padding:10px 18px;border-radius:30px;border:1px solid var(--navy);background:white;color:var(--navy)}
 .cats button.active{background:var(--navy);color:var(--cream)}
 .banner{background:var(--navy);color:var(--cream);margin:12px 16px;border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center}
 .hero{padding:24px 16px}
 .hero h1{font-size:32px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
 .card{background:white;border-radius:16px;border:1px solid rgba(34,43,66,.1);padding:12px;text-align:center}
-.ph{height:120px;background:#FFF4DF;border:2px dashed var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
+.ph{height:120px;background:#FFF4DF;border:2px dashed var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;color:var(--navy)}
 .price input{width:100%;padding:8px;border:1px solid var(--navy);border-radius:8px;text-align:center;margin-top:8px}
 .btn{background:var(--navy);color:var(--cream);border:none;border-radius:10px;padding:10px;width:100%;margin-top:8px}
 .cart{position:fixed;top:16px;right:16px;background:var(--navy);color:var(--cream);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center}
@@ -39,11 +40,14 @@ header{padding:16px;text-align:center;border-bottom:1px solid rgba(34,43,66,.1)}
 <script>
 const grid=document.getElementById('grid');
 for(let i=1;i<=20;i++){
-const d=document.createElement('div');d.className='card';
-d.innerHTML=<div class="ph" onclick="this.innerHTML='<input type=file accept=image/* onchange=preview(this) style=display:none>';this.querySelector('input').click()">AJOUTER VOTRE IMAGE ICI</div><p style="margin-top:8px">Produit ${i}</p><div class="price"><input placeholder="Votre prix ici"></div><button class="btn">Ajouter au panier</button>;
-grid.appendChild(d);
+  const d=document.createElement('div');d.className='card';
+  const ph=document.createElement('div');ph.className='ph';ph.textContent='AJOUTER VOTRE IMAGE ICI';
+  ph.onclick=function(){const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=function(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){ph.innerHTML='<img src="'+ev.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px">'};r.readAsDataURL(f)};inp.click()};
+  const p=document.createElement('p');p.textContent='Produit '+i;p.style.marginTop='8px';
+  const priceDiv=document.createElement('div');priceDiv.className='price';const priceInput=document.createElement('input');priceInput.placeholder='Votre prix ici';priceDiv.appendChild(priceInput);
+  const btn=document.createElement('button');btn.className='btn';btn.textContent='Ajouter au panier';
+  d.appendChild(ph);d.appendChild(p);d.appendChild(priceDiv);d.appendChild(btn);grid.appendChild(d);
 }
-function preview(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{el.parentElement.innerHTML=<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">};r.readAsDataURL(f)}
 </script>
 </body>
 </html>
